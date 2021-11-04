@@ -1,23 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import Form from './components/Form';
+import Modal from './components/Modal';
+import UserList from './components/UserList';
+import { useState } from 'react'
+
 
 function App() {
+
+  const [error, setError] = useState()
+
+  const [userList, setUserList] = useState('')
+
+  const addUser = (username, age, id) => {
+    setUserList([...userList, { username, age, id }])
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {error && <Modal title={error.title} message={error.message} setError={setError} />}
+      <Form addUser={addUser} setError={setError} userList={userList} />
+      {userList.length !== 0 && <UserList userList={userList} setUserList={setUserList} />}
     </div>
   );
 }
